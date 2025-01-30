@@ -1,4 +1,4 @@
-# Bun + Hono Server
+# Bun + Vite
 
 To install dependencies:
 
@@ -6,17 +6,38 @@ To install dependencies:
 bun install
 ```
 
-To run:
+## Server
 
+To run:
 ```
 bun start
 ```
-To run dev mode:
+Dev mode:
 ```
 bun dev
 ```
 
-About:
+## Frontend
+
+Go to front folder:
+```
+cd ./frotend/
+```
+
+To run:
+```
+bun start
+```
+
+Dev mode:
+```
+bun dev
+```
+
+Build(server need static files):
+```
+bun run build
+```
 
 ***
 
