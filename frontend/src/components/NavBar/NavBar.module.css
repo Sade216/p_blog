@@ -1,0 +1,8 @@
+.navBrand {
+    color: white;
+    display: flex;
+    float: left;
+    overflow: hidden;
+    padding: 18px 16px;
+    position: relative;
+}
