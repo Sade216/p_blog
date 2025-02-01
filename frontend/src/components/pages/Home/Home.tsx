@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Accordion, Button, Card, Form, Modal, PanelGroup, Placeholder } from 'rsuite'
+import { Accordion, Button, Card, Form, Modal, PanelGroup } from 'rsuite'
 import axios from 'axios';
 import { NavLink } from 'react-router';
 
