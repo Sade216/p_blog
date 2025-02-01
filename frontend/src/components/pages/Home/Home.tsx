@@ -108,7 +108,7 @@ function Home() {
         </PanelGroup>
         <Modal backdrop='static' keyboard={false} open={openModule} onClose={handleCloseModule}>
             <Modal.Header>
-                <Modal.Title>Modal Title</Modal.Title>
+                <Modal.Title>Update post</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form
