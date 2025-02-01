@@ -45,7 +45,7 @@ Build(server need static files):
 bun run build
 ```
 
-Since I use local instance of **Postgres**, you'll need to **setup DB connection** in ***.env*** file:
+Since I use local instance of **Postgres**, you'll need to **setup DB connection** in ***.env*** file (in the root directory):
 ```
 DATABASE_URL='your_postgres_database_url'
 ```
