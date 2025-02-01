@@ -3,16 +3,22 @@
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/pg": "^8.11.11",
+    "drizzle-kit": "^0.30.4",
+    "tsx": "^4.19.2"
   },
   "scripts": {
-    "start": "bun ./server/app.ts",
-    "dev": "bun --watch ./server/app.ts"
+    "start": "bun ./server/src/app.ts",
+    "dev": "bun --watch ./server/src/app.ts"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "hono": "^4.6.19"
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.39.1",
+    "hono": "^4.6.19",
+    "pg": "^8.13.1"
   }
 }

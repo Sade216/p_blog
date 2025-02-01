@@ -8,6 +8,7 @@ import NavBar from "./components/NavBar/NavBar"
 import Home from "./components/pages/Home/Home"
 import About from "./components/pages/About/About"
 import ErrorPage from "./components/pages/ErrorPage/ErrorPage"
+import CreatePost from "./components/CreatePost/CreatePost"
 
 // const client = hc<ApiRoutes>('/')
 
@@ -18,6 +19,7 @@ function App() {
         <NavBar />
         <Routes>
             <Route index element={<Home />} />
+            <Route path="/create" element={<CreatePost />} />
             <Route path="/about" element={<About />} />
             <Route path={"*"} element={<ErrorPage />} />
 

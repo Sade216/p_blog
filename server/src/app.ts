@@ -9,8 +9,6 @@ app.use("*", logger())
 
 const apiRoutes = app.basePath('/api')
     .route('/posts', postsRoutes)
-    // .route('/news', newsRoutes)
-    // .route('/music', musicRoutes)
 
 app.get('*', serveStatic({ root:'././frontend/dist'}))
 app.get('*', serveStatic({ path:'././frontend/dist/index.html'}))
