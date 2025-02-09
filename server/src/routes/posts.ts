@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { postsGet, postsCreate, postsUpdate, postsDelete } from "./postsContoller";
+import { postsGet, postsCreate, postsUpdate, postsDelete, commentCreate } from "./postsContoller";
 
 export const postsRoutes = new Hono()
     //Get all posts
@@ -19,6 +19,12 @@ export const postsRoutes = new Hono()
     //Delete post
     .delete('/', async (c) => {
         const res = await postsDelete(c)
+        return c.json({})
+
+    })
+    //Create comment
+    .post('/comment', async (c) => {
+        const res = await commentCreate(c)
         return c.json({})
 
     })

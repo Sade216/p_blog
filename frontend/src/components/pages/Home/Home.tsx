@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Accordion, Button, Card, Form, Modal, PanelGroup } from 'rsuite'
+import { Accordion, Button, Card, Form, Input, Modal, PanelGroup } from 'rsuite'
 import axios from 'axios';
 import { NavLink } from 'react-router';
 
@@ -9,16 +9,25 @@ import { Icon } from '@rsuite/icons';
 export type Post = {
     id: string,
     title: string,
-    desc: string,
+    description: string,
+    comments: Comment[]
 }
 
-const postInitState = {id: '', title: '', desc: ''}
-
 export type PostArray = Post[]
+
+type Comment = {
+    id: string,
+    text: string,
+    postId: string
+}
+
+const postInitState = {id: '', title: '', description: '', comments: []}
 
 function Home() {
     const [posts, setPosts] = useState<PostArray>([])
     const [post, setPost] = useState<Post>(postInitState)
+
+    const [comment, setComment] = useState('')
 
     const [openModule, setOpenModule] = useState(false)
     const handleOpenModule = (id: string) => {
@@ -51,12 +60,29 @@ function Home() {
         await axios.put(`/api/posts`, {
             id: post.id,
             title: post.title,
-            desc: post.desc,
+            description: post.description,
         }, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
+    }
+
+    async function handleSubmitComment(id: string) {
+        if(comment.length > 3){
+            await axios.post(`/api/posts/comment`, {
+                post_id: id,
+                text: comment,
+            }, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            setComment('')
+        }
+        else{
+            console.log('Мало символов')
+        }
     }
     
     useEffect(() => {
@@ -64,6 +90,7 @@ function Home() {
             const res = await axios.get('/api/posts')
             const data = res.data
             setPosts(data)
+            console.log(data)
         }
         fetchPosts()
     }, []);
@@ -71,31 +98,48 @@ function Home() {
   return (
     <div style={{margin: '20px 20px'}}>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            <h3>Posts</h3>
+            <h3>Посты</h3>
             <Button style={{height: 'min-content'}} as={NavLink} to={'/create'} appearance='primary' color='blue'>Create</Button>
         </div>
         
         <PanelGroup style={{margin: '10px 0'}}>
-            {posts.length > 0 ?
-                posts.map((post:Post) => (
-                    <Card key={post.id} style={{marginTop: '20px'}}>
-                        <Card.Header as="h5" style={{margin: '0 0 15px 0'}}>{post.title}</Card.Header>
+            {posts ?
+                posts.map((post:Post, key) => (
+                    post && (
+                        <Card key={key} style={{marginTop: '20px'}}>
+                            <div style={{display: 'flex', gap: '10px', alignItems: 'center', justifyContent: 'space-between'}}>
+                            <Card.Header as="h5" style={{margin: '0 0 15px 0'}}>{post.title}</Card.Header>
+                            <div style={{margin: '0 10px 0 0'}}>
+                                <Button style={{height: 'min-content', fontSize: '20px', marginRight: '10px'}} onClick={()=> deletePost(post.id)} appearance='primary' color='red'><Icon as={TrashIcon}></Icon></Button>
+                                <Button style={{height: 'min-content'}} onClick={()=> handleOpenModule(post.id)} appearance='primary' color='blue'> Update</Button>
+                            </div>
+                        </div>
                         <div style={{margin: '0 15px'}}>
-                                {post.desc}
+                                {post.description}
                             <div style={{display: 'flex', justifyContent: 'space-between', margin: '0 15px 15px 15px'}}>
                                 <Accordion style={{width: '100%'}}>
-                                    <Accordion.Panel header="Comments">
-                                        {`No comments found  :(`}
-                                        123321
+                                    <Accordion.Panel header="Комментарии:">
+                                        <div style={{display: 'flex', flexDirection: 'row'}}>
+                                            <Input type='text' onChange={comm => setComment(comm)} />
+                                            <Button style={{margin: '0 0 0 10px'}} onClick={() => handleSubmitComment(post.id)}>Submit</Button>
+                                        </div>
+                                    {post.comments ? 
+                                        post.comments.map((comment)=>(
+                                            <Card style={{marginTop: '20px', minHeight: '50px'}}>
+                                                {comment.text}
+                                            </Card>
+                                        ))   
+                                    :
+                                    <div style={{marginTop: '20px', minHeight: '50px'}}>
+                                        Нет комментариев
+                                    </div>
+                                    }
                                     </Accordion.Panel>
                                 </Accordion>
-                                <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
-                                    <Button style={{height: 'min-content', fontSize: '20px'}} onClick={()=> deletePost(post.id)} appearance='primary' color='red'><Icon as={TrashIcon}></Icon></Button>
-                                    <Button style={{height: 'min-content'}} onClick={()=> handleOpenModule(post.id)} appearance='primary' color='blue'> Update</Button>
-                                </div>
                             </div>
                         </div>
                     </Card>
+                    )
                 ))
                 :
                 

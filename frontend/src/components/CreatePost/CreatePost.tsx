@@ -5,18 +5,18 @@ import axios from "axios"
 import { NavLink } from "react-router"
 
 
-const postInitState = {title: '', desc: ''}
+const postInitState = {title: '', description: ''}
 
-type PostEdit = Omit<Post, 'id'>
+type PostEdit = Omit<Post, 'id' | 'comments'>
 
 function CreatePost() {
     const [post, setPost] = useState<PostEdit>(postInitState)
 
     async function handleSubmit(){
-        if(post.title.length > 3 && post.desc.length > 3){
+        if(post.title.length > 3 && post.description.length > 3){
             await axios.post(`/api/posts`, {
                 title: post.title,
-                desc: post.desc,
+                desc: post.description,
             }, {
                 headers: {
                     'Content-Type': 'multipart/form-data'

@@ -16,8 +16,9 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@types/node": "^22.13.1",
     "dotenv": "^16.4.7",
-    "drizzle-orm": "^0.39.1",
+    "drizzle-orm": "^0.39.2",
     "hono": "^4.6.19",
     "pg": "^8.13.1"
   }
