@@ -20,7 +20,7 @@ export const postsGet = async () => {
 export const postsCreate = async (c: Context) =>{
     try {
         const body = await c.req.parseBody()
-        await db.insert(postsTable).values({ title: body.title.toString(), description: body.desc.toString()});
+        await db.insert(postsTable).values({ title: body.title.toString(), description: body.description.toString()});
         return c.json({
             status: 200
         })
@@ -64,6 +64,21 @@ export const commentCreate = async (c: Context) =>{
     try {
         const body = await c.req.parseBody()
         await db.insert(commentsTable).values({ text: body.text.toString(), post_id: body.post_id.toString()});
+        return c.json({
+            status: 200
+        })
+    }
+    catch(e){
+        throw new HTTPException(400, { cause: e })
+    }
+}
+
+export const commentDelete = async (c: Context) =>{
+    try {
+        const id = c.req.query('id')
+        if(typeof id === 'string'){
+            await db.delete(commentsTable).where(eq(commentsTable.id, id));
+        }
         return c.json({
             status: 200
         })

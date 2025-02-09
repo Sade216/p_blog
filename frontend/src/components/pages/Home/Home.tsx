@@ -79,10 +79,15 @@ function Home() {
                 }
             })
             setComment('')
+            window.location.reload()
         }
         else{
             console.log('Мало символов')
         }
+    }
+    async function handleDeleteComment(id: string) {
+        await axios.delete(`/api/posts/comment?id=${id}`)
+        window.location.reload()
     }
     
     useEffect(() => {
@@ -90,7 +95,6 @@ function Home() {
             const res = await axios.get('/api/posts')
             const data = res.data
             setPosts(data)
-            console.log(data)
         }
         fetchPosts()
     }, []);
@@ -124,10 +128,13 @@ function Home() {
                                             <Button style={{margin: '0 0 0 10px'}} onClick={() => handleSubmitComment(post.id)}>Submit</Button>
                                         </div>
                                     {post.comments ? 
-                                        post.comments.map((comment)=>(
-                                            <Card style={{marginTop: '20px', minHeight: '50px'}}>
-                                                {comment.text}
-                                            </Card>
+                                        post.comments.map((comment, key)=>(
+                                            <div style={{marginTop: '20px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%'}} key={key}>
+                                                <div style={{minHeight: '50px', alignContent:'center'}}>
+                                                    {comment.text}
+                                                </div>
+                                                <Button style={{margin: '0 0 0 10px'}} onClick={() => handleDeleteComment(comment.id)}><Icon as={TrashIcon}></Icon></Button>
+                                            </div>
                                         ))   
                                     :
                                     <div style={{marginTop: '20px', minHeight: '50px'}}>
@@ -144,9 +151,9 @@ function Home() {
                 :
                 
                 <Card style={{marginTop: '20px'}}>
-                    <Card.Header as="h5" style={{margin: '0 0 15px 0'}}>{`No posts found  :(`}</Card.Header>
+                    <Card.Header as="h5" style={{margin: '0 0 15px 0'}}>{`Нет постов  :(`}</Card.Header>
                     <div style={{margin: '0 15px 20px 15px'}}>
-                        Сreate button is located in the upper right corner
+                        {`Создать новый пост можно вверху справа )`}
                     </div>
                 </Card>
             }
@@ -167,7 +174,7 @@ function Home() {
 
                         
                         <Form.ControlLabel>Description:</Form.ControlLabel>
-                        <Form.Control name="desc" />
+                        <Form.Control name="description" />
                         <Form.HelpText tooltip>Post description.</Form.HelpText>
                     </Form.Group>
                 </Form>

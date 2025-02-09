@@ -13,10 +13,11 @@ function CreatePost() {
     const [post, setPost] = useState<PostEdit>(postInitState)
 
     async function handleSubmit(){
+        console.log(post)
         if(post.title.length > 3 && post.description.length > 3){
             await axios.post(`/api/posts`, {
                 title: post.title,
-                desc: post.description,
+                description: post.description,
             }, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -48,7 +49,7 @@ function CreatePost() {
                 </Form.Group>
                 <Form.Group >
                     <Form.ControlLabel>Description:</Form.ControlLabel>
-                    <Form.Control name="desc"/>
+                    <Form.Control name="description"/>
                     <Form.HelpText>The description of the new post. Minimum of 4 characters.</Form.HelpText>
                 </Form.Group>
                 <Form.Group style={{display: 'flex',justifyContent: 'space-between'}}>
