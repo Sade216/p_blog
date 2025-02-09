@@ -12,7 +12,7 @@ export const commentsTable = pgTable("comments", {
     text: varchar("text").notNull(),
     post_id: uuid("post_id")
         .notNull()
-        .references(() => postsTable.id, { onDelete: "cascade" }), // 🔥 Теперь Drizzle точно видит связь!
+        .references(() => postsTable.id, { onDelete: "cascade" }),
 })
 export const postsRelations = relations(postsTable, ({ many }) => ({
     comments: many(commentsTable),
@@ -21,6 +21,6 @@ export const postsRelations = relations(postsTable, ({ many }) => ({
 export const commentsRelations = relations(commentsTable, ({ one }) => ({
     post: one(postsTable, {
         fields: [commentsTable.post_id],
-        references: [postsTable.id], // 💡 Теперь работает, потому что post_id связан!
+        references: [postsTable.id],
     }),
 }));
